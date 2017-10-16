@@ -1,13 +1,11 @@
-
-#
-y-NSX-T: automatically deploy and configure NSX-T
+# Deploy-NSX-T using SHELL: automatically deploy and configure NSX-T
 This project contains scripts to Install and Configure NSX-T (any version of NSX-T).
 
 The scripts are based on Linux Shell and use stadard tools like OVFtool, sshpass, jq and curl.
 
 Scripts are:
 * 1-install_nsx.sh
-* 2-enable_nsx_cluster.sh
+* 2-activate_nsx_cluster.sh
 * 3-configure_nsx.sh
 
 #### 1-install_nsx.sh
@@ -16,7 +14,7 @@ Creates the following NSX-T components:
 * 1 NSX Controller
 * 1 NSX Edge
 
-#### 2-enable_nsx_cluster.sh
+#### 2-activate_nsx_cluster.sh
 Form NSX-T cluster:
 NSX Controller will be registered to NSX Manager
 NSX Edge will be registered to NSX Manager
