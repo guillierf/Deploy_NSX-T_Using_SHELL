@@ -8,11 +8,15 @@ Scripts are:
 * 2-activate_nsx_cluster.sh
 * 3-configure_nsx.sh
 
+A final script all-install_activate_configure_nsx.sh uses the aboves scripts in sequence.
+You have the choice to either launch each script one after the other (advantage is to check all steps) - or - launch the all script that will automate all sequences.
+
+
 #### 1-install_nsx.sh
 Creates the following NSX-T components:
-* 1 NSX Manager
-* 1 NSX Controller
-* 1 NSX Edge
+* 1 NSX Manager (NSX Manager will be instantiated in the MGMT cluster)
+* 1 NSX Controller (NSX Controller will be instantiated in the MGMT cluster)
+* 1 NSX Edge ((NSX Edge will be instantiated in the COMPUTE cluster)
 
 #### 2-activate_nsx_cluster.sh
 Form NSX-T cluster:
@@ -44,7 +48,6 @@ Create following NSX-T objects:
 ## System requirements
 To run these scripts, you need:
 * 1 VM running Linux (Ubuntu tested here) - the scripts can be running on your MAC laptop as well
-* Web server running on the VM (use apache2 for instance)
 * OVFTool installed in the VM
 * sshpass installed in the VM
 * jq installed in the VM
@@ -54,34 +57,53 @@ NSX-T will be deployed in the lab with the following config:
 * 1 MGMT cluster (will host NSX Manager and NSX Controller)
 * 1 COMPUTE cluster (will host NSX Edge)
 
+## OVA bits
+It's up to the user to download all NSX OVA bits.
+location of NSX Manager, NSX Controller and NSX Edge OVA files will then be provided to env var file install_nsx.env. 
+
 
 ## Procedure
-### stage 1: install NSX
+### step 1: install NSX
 
 
-Place all NSX-T OVA files in the root directory of your web server.
-For apache2, default root directory is /var/www/html/ .
 
 Create a file named 'install_nsx.env':
 ```
-export NSX_MANAGER_OVA_URL=http://localhost/nsx-unified-appliance-2.0.0.0.0.6522097.ova
-export NSX_CONTROLLER_OVA_URL=http://localhost/nsx-controller-2.0.0.0.0.6522091.ova
-export NSX_EDGE_OVA_URL=http://localhost/nsx-edge-2.0.0.0.0.6522113.ova
+# Location of OVA files
+export NSX_MANAGER_OVA_FILE=/DATA/BINARIES/NSX-T-2-0-0/nsx-unified-appliance-2.0.0.0.0.6522097.ova
+export NSX_CONTROLLER_OVA_FILE=/DATA/BINARIES/NSX-T-2-0-0/nsx-controller-2.0.0.0.0.6522091.ova
+export NSX_EDGE_OVA_FILE=/DATA/BINARIES/NSX-T-2-0-0/nsx-edge-2.0.0.0.0.6522113.ova
 
+# VM names on vCenter
+export NSX_MANAGER_NAME=NSX-T_manager
+export NSX_CONTROLLER_NAME=NSX-T_controller
+export NSX_EDGE_NAME=NSX-T_edge
+
+# vCenter attributes
 export VCENTER_IP=10.40.206.61
 export VCENTER_USERNAME="administrator@vsphere.local"
 export VCENTER_PASSWORD="VMware1!"
 
+# vCenter DC name
 export NSX_HOST_COMMON_DATACENTER=Datacenter
+
+# Compute Cluster (for NSX Edge VM)
 export NSX_HOST_COMPUTE_CLUSTER=COMP-Cluster-1
 export NSX_HOST_COMPUTE_DATASTORE=NFS-LAB-DATASTORE
+
+# Management Cluster (for NSX Manager and NSX Controller)
 export NSX_HOST_MGMT_CLUSTER=MGMT-Cluster
 export NSX_HOST_MGMT_DATASTORE=NFS-LAB-DATASTORE
+
+# Network0: MGMT port-group
+# Network1: Edge VTEP port-group
+# Network2: Edge Uplink port-group
 export NSX_HOST_COMMON_NETWORK0=CNA-VM
 export NSX_HOST_COMMON_NETWORK1=NSX-VTEP-PG
 export NSX_HOST_COMMON_NETWORK2=CNA-INFRA
 export NSX_HOST_COMMON_NETWORK3=CNA-INFRA
 
+# NSX Manager, Controller, Edge Network Attributes
 export NSX_MANAGER_IP=10.40.207.33
 export NSX_CONTROLLER_IP=10.40.207.34
 export NSX_EDGE_IP=10.40.207.35
@@ -92,8 +114,6 @@ export NSX_COMMON_GATEWAY=10.40.207.253
 export NSX_COMMON_DNS=10.20.20.1
 export NSX_COMMON_NTP=10.113.60.176
 
-export NSX_OVERWRITE=false
-```
 
 Source it:
 ```
