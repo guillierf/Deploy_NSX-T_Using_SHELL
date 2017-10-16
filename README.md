@@ -1,6 +1,6 @@
 
 #
-y-NSX-T: automatically deploy and configure NSX-T
+Deploy-NSX-T using SHELL: automatically deploy and configure NSX-T
 This project contains scripts to Install and Configure NSX-T (any version of NSX-T).
 
 The scripts are based on Linux Shell and use stadard tools like OVFtool, sshpass, jq and curl.
