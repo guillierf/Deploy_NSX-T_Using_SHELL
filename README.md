@@ -66,8 +66,9 @@ location of NSX Manager, NSX Controller and NSX Edge OVA files will then be prov
 ### step 1: install NSX
 
 
+On the LINUX VM:
 
-Create a file named 'install_nsx.env':
+Modify file named 'install_nsx.env' with your environment attributes:
 ```
 # Location of OVA files
 export NSX_MANAGER_OVA_FILE=/DATA/BINARIES/NSX-T-2-0-0/nsx-unified-appliance-2.0.0.0.0.6522097.ova
@@ -113,7 +114,7 @@ export NSX_COMMON_NETMASK=255.255.255.0
 export NSX_COMMON_GATEWAY=10.40.207.253
 export NSX_COMMON_DNS=10.20.20.1
 export NSX_COMMON_NTP=10.113.60.176
-
+```
 
 Source it:
 ```
@@ -126,7 +127,9 @@ Then run the first script:
 ```
 
 
-### stage 2: enable NSX cluster
+### Step 2: enable NSX cluster
+
+Make sure NSX Manager, NSX Controller and NSX Edge are up and running before moving forward.
 
 Run the second script:
 ```
@@ -134,9 +137,9 @@ Run the second script:
 ```
 
 
-### stage 3: configure NSX
+### Step 3: configure NSX
 
-Create a file named 'configure_nsx.env':
+Modify file named 'configure_nsx.env' with your environment attributes:
 ```
 export NETWORK_TUNNEL_IP_POOL_CIDR="192.168.150.0/24"
 export NETWORK_TUNNEL_IP_POOL_ALLOCATION_START="192.168.150.200"
