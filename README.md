@@ -1,4 +1,3 @@
-
 #
 Deploy-NSX-T using SHELL: automatically deploy and configure NSX-T
 This project contains scripts to Install and Configure NSX-T (any version of NSX-T).
